@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/DashboardFragment"
+    >
+
+
+    <fragment
+        android:id="@+id/DashboardFragment"
+        android:name="tech.rounak.productiveyou.fragments.DashboardFragment"
+        android:label="Dashboard">
+<!--        <action-->
+<!--            android:id="@+id/action_loginUsernameFragment_to_loginOtpFragment"-->
+<!--            app:destination="@id/loginOtpFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginUsernameFragment_to_registration1Fragment"-->
+<!--            app:destination="@id/registrationNavigation" />-->
+
+    </fragment>
+
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/dashboardFragment"-->
+<!--        android:name="tech.rounak.qr.fragments.DashboardFragment"-->
+<!--        android:label="Dashboard"-->
+<!--        tools:layout="@layout/fragment_dashboard" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_dashboardFragment_to_loginNavigation"-->
+<!--            app:destination="@id/loginNavigation"/>-->
+<!--        <action-->
+<!--            android:id="@+id/action_dashboardFragment_to_profileFragment"-->
+<!--            app:destination="@id/profileFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_dashboardFragment_to_scheduleFragment"-->
+<!--            app:destination="@id/scheduleFragment" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/profileFragment"-->
+<!--        android:name="care.mefy.doctor.fragments.ProfileFragment"-->
+<!--        android:label="Profile"-->
+<!--        tools:layout="@layout/fragment_profile" />-->
+
+<!--    <navigation-->
+<!--        android:id="@+id/loginNavigation"-->
+<!--        android:label="LoginNavigation"-->
+<!--        app:startDestination="@id/loginUsernameFragment">-->
+<!--        <fragment-->
+<!--            android:id="@+id/loginUsernameFragment"-->
+<!--            android:name="care.mefy.doctor.fragments.LoginUsernameFragment"-->
+<!--            android:label="LoginUsernameFragment">-->
+<!--            <action-->
+<!--                android:id="@+id/action_loginUsernameFragment_to_loginOtpFragment"-->
+<!--                app:destination="@id/loginOtpFragment" />-->
+<!--            <action-->
+<!--                android:id="@+id/action_loginUsernameFragment_to_registration1Fragment"-->
+<!--                app:destination="@id/registrationNavigation" />-->
+
+<!--        </fragment>-->
+<!--        <fragment-->
+<!--            android:id="@+id/loginOtpFragment"-->
+<!--            android:name="care.mefy.doctor.fragments.LoginOtpFragment"-->
+<!--            android:label="fragment_login_otp"-->
+<!--            tools:layout="@layout/fragment_login_otp" >-->
+
+
+<!--            <action-->
+<!--                android:id="@+id/action_loginOtpFragment_pop"-->
+<!--                app:popUpTo="@id/loginUsernameFragment"-->
+<!--                app:popUpToInclusive="true" />-->
+<!--        </fragment>-->
+<!--        <navigation-->
+<!--            android:id="@+id/registrationNavigation"-->
+<!--            android:label="registrationNavigaton"-->
+<!--            app:startDestination="@id/registration1Fragment">-->
+<!--            <fragment-->
+<!--                android:id="@+id/registration1Fragment"-->
+<!--                android:name="care.mefy.doctor.fragments.Registration1Fragment"-->
+<!--                android:label="fragment_registration1"-->
+<!--                tools:layout="@layout/fragment_registration1">-->
+<!--                <action-->
+<!--                    android:id="@+id/action_registration1Fragment_to_registration2Fragment"-->
+<!--                    app:destination="@id/registration2Fragment" />-->
+<!--            </fragment>-->
+<!--            <fragment-->
+<!--                android:id="@+id/registration2Fragment"-->
+<!--                android:name="care.mefy.doctor.fragments.Registration2Fragment"-->
+<!--                android:label="fragment_registration2"-->
+<!--                tools:layout="@layout/fragment_registration2">-->
+<!--                <action-->
+<!--                    android:id="@+id/action_registration2Fragment_to_registration3Fragment"-->
+<!--                    app:destination="@id/registration3Fragment" />-->
+<!--            </fragment>-->
+<!--            <fragment-->
+<!--                android:id="@+id/registration3Fragment"-->
+<!--                android:name="care.mefy.doctor.fragments.Registration3Fragment"-->
+<!--                android:label="fragment_registration3"-->
+<!--                tools:layout="@layout/fragment_registration3">-->
+<!--                <action-->
+<!--                    android:id="@+id/action_registration3Fragment_to_registration4Fragment"-->
+<!--                    app:destination="@id/registration4Fragment" />-->
+<!--            </fragment>-->
+<!--            <fragment-->
+<!--                android:id="@+id/registration4Fragment"-->
+<!--                android:name="care.mefy.doctor.fragments.Registration4Fragment"-->
+<!--                android:label="fragment_registration4"-->
+<!--                tools:layout="@layout/fragment_registration4">-->
+<!--                <action-->
+<!--                    android:id="@+id/action_registration4Fragment_to_registration5Fragment"-->
+<!--                    app:destination="@id/registration5Fragment" />-->
+<!--            </fragment>-->
+<!--            <fragment-->
+<!--                android:id="@+id/registration5Fragment"-->
+<!--                android:name="care.mefy.doctor.fragments.Registration5Fragment"-->
+<!--                android:label="fragment_registration5"-->
+<!--                tools:layout="@layout/fragment_registration5" >-->
+
+<!--                <action-->
+<!--                    android:id="@+id/action_registration5Fragment_pop"-->
+<!--                    app:popUpTo="@id/registration1Fragment"-->
+<!--                    app:popUpToInclusive="true" />-->
+
+<!--            </fragment>-->
+<!--        </navigation>-->
+<!--        <action-->
+<!--            android:id="@+id/action_global_dashboardFragment"-->
+<!--            app:destination="@id/dashboardFragment" />-->
+<!--    </navigation>-->
+<!--    <fragment-->
+<!--        android:id="@+id/scheduleFragment"-->
+<!--        android:name="care.mefy.doctor.fragments.ScheduleFragment"-->
+<!--        android:label="Schedule"-->
+<!--        tools:layout="@layout/fragment_schedule" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_scheduleFragment_to_prescriptionFragment"-->
+<!--            app:destination="@id/prescriptionFragment" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/prescriptionFragment"-->
+<!--        android:name="care.mefy.doctor.fragments.PrescriptionFragment"-->
+<!--        android:label="eConsult"-->
+<!--        tools:layout="@layout/fragment_prescription" >-->
+<!--        <argument-->
+<!--            android:name="appointmentId"-->
+<!--            app:argType="string" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_prescriptionFragment_to_callingFragment"-->
+<!--            app:destination="@id/callingFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_prescriptionFragment_pop"-->
+<!--            app:popUpTo="@id/prescriptionFragment"-->
+<!--            app:popUpToInclusive="true" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/callingFragment"-->
+<!--        android:name="care.mefy.doctor.fragments.CallingFragment"-->
+<!--        android:label="fragment_calling"-->
+<!--        tools:layout="@layout/fragment_calling" >-->
+<!--        <argument-->
+<!--            android:name="individualId"-->
+<!--            app:argType="string" />-->
+<!--        <argument-->
+<!--            android:name="ImageId"-->
+<!--            app:argType="string" />-->
+<!--        <argument-->
+<!--            android:name="individualName"-->
+<!--            app:argType="string" />-->
+<!--        <argument-->
+<!--            android:name="doctorId"-->
+<!--            app:argType="string" />-->
+
+<!--        <action-->
+<!--            android:id="@+id/action_calling_pop"-->
+<!--            app:popUpTo="@id/callingFragment"-->
+<!--            app:popUpToInclusive="true" />-->
+<!--    </fragment>-->
+</navigation>
