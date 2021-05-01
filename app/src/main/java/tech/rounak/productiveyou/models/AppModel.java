@@ -1,4 +1,4 @@
-package tech.rounak.models;
+package tech.rounak.productiveyou.models;
 
 import android.graphics.drawable.Drawable;
 

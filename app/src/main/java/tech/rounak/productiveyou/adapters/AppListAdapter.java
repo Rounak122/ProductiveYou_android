@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import tech.rounak.models.AppModel;
+import tech.rounak.productiveyou.models.AppModel;
 import tech.rounak.productiveyou.R;
 
 /**
