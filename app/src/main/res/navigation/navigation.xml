@@ -11,13 +11,6 @@
         android:id="@+id/DashboardFragment"
         android:name="tech.rounak.productiveyou.fragments.DashboardFragment"
         android:label="Dashboard">
-<!--        <action-->
-<!--            android:id="@+id/action_loginUsernameFragment_to_loginOtpFragment"-->
-<!--            app:destination="@id/loginOtpFragment" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_loginUsernameFragment_to_registration1Fragment"-->
-<!--            app:destination="@id/registrationNavigation" />-->
-
         <action
             android:id="@+id/action_DashboardFragment_to_AllAppsFragment"
             app:destination="@id/AllAppsFragment" />
@@ -27,12 +20,6 @@
         android:id="@+id/AllAppsFragment"
         android:name="tech.rounak.productiveyou.fragments.AllAppsFragment"
         android:label="Apps">
-        <!--        <action-->
-        <!--            android:id="@+id/action_loginUsernameFragment_to_loginOtpFragment"-->
-        <!--            app:destination="@id/loginOtpFragment" />-->
-        <!--        <action-->
-        <!--            android:id="@+id/action_loginUsernameFragment_to_registration1Fragment"-->
-        <!--            app:destination="@id/registrationNavigation" />-->
 
     </fragment>
 

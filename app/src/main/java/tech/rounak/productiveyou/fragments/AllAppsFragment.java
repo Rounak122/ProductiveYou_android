@@ -35,6 +35,7 @@ import tech.rounak.productiveyou.utils.StatsHelper;
 
 public class AllAppsFragment extends Fragment {
 
+    private static final String TAG = "ALLAPPSFRAGMENT";
     private List<AppModel> appList = new ArrayList<AppModel>();
     private AppListAdapter appListAdapter;
     private RecyclerView appRecyclerList;
@@ -44,6 +45,7 @@ public class AllAppsFragment extends Fragment {
     private int timeframe =0;
     private long startTimeMillis = 0;
     private long endTimeMillis =0;
+    long totalTime=0;
 
     public AllAppsFragment() {
         // Required empty public constructor
@@ -75,13 +77,33 @@ public class AllAppsFragment extends Fragment {
             }
             setTimes(); //set timeframe
 //            setAppList(); //
-            new LoadApplications().execute();
+
+
+
+            appRecyclerList.post(new Runnable(){
+                @Override
+                public void run() {
+                    fetchUsageData(
+                            packageManager.getInstalledApplications(PackageManager.GET_META_DATA));
+//                    tv_totalTime.setText(StatsHelper.getTime(totalTime));
+                    appListAdapter.notifyDataSetChanged();
+                }
+            });
+
+
+
+
+
+
+
+//            new LoadApplications().execute();
         });
 
 
 
         return v;
     }
+
 
     private void setAppList() {
         String serialized = PrefHandler.INSTANCE.getPkgList(requireActivity().getApplicationContext());
@@ -92,6 +114,7 @@ public class AllAppsFragment extends Fragment {
         }
 
         appListAdapter = new AppListAdapter(getContext(), appList);
+        appListAdapter.setFrag(1);
         if (appListAdapter != null) {
             Log.i("RECYCLERVIEW", "setAppList: ADAPTER SETUP------------------------------------------------>>>>>>>>>>>>>>>>>>>");
             appRecyclerList.setAdapter(appListAdapter);
@@ -150,19 +173,27 @@ public class AllAppsFragment extends Fragment {
         Map<String, UsageStats> usageStatsMap = StatsHelper.getUsageStatsManager().
                 queryAndAggregateUsageStats(startTimeMillis, endTimeMillis);
 
+
         for (ApplicationInfo info : list) {
             try {
-                if (null != packageManager.getLaunchIntentForPackage(info.packageName) && prefList.contains(info.packageName)) {
+                if (null != packageManager.getLaunchIntentForPackage(info.packageName) && ( usageStatsMap.containsKey(info.packageName))  && prefList.contains(info.packageName)) {
+
+                    long uTime = usageStatsMap.get(info.packageName).getTotalTimeInForeground();
+                    totalTime+=uTime;
 
                     appList.add(new AppModel((String) info.loadLabel(packageManager),
                             info.packageName,
                             info.loadIcon(packageManager),
-                            StatsHelper.getTime(usageStatsMap.get(info.packageName).getTotalTimeInForeground())));
+                            StatsHelper.getTime(uTime),
+                            uTime));
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+//                Log.i(TAG, "fetchUsageData:-0)))))))))))))))))))) " + info.packageName);
             }
         }
+
     }
 
 
@@ -191,6 +222,7 @@ public class AllAppsFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             appListAdapter.notifyDataSetChanged();
+//TODO: CHange total time
 
             Toast.makeText(getContext(), "DONEEE", Toast.LENGTH_SHORT).show();
             //TODO: close progressbar when added
@@ -205,6 +237,8 @@ public class AllAppsFragment extends Fragment {
 
         @Override
         protected void onProgressUpdate(Void... values) {
+
+            appListAdapter.notifyDataSetChanged();
             super.onProgressUpdate(values);
         }
     }

@@ -22,6 +22,11 @@ import tech.rounak.productiveyou.R;
 public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<AppModel> data;
     private Context context;
+    int frag = 0;
+
+    public void setFrag(int frag) {
+        this.frag = frag;
+    }
 
     private class AppsViewHolder extends RecyclerView.ViewHolder{
 
@@ -65,7 +70,14 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return data.size();
+
+        if (frag == 0) {
+            return Math.min(data.size(), 5);
+        }else{
+            return data.size();
+        }
+
+//        return data.size();
     }
 //
 //    public interface OnSettingsChangedListener {
