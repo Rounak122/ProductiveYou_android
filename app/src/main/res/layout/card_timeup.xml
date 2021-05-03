@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/timeup_layout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="280dp"
+            android:layout_height="370dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@android:color/holo_blue_dark"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Time Up!"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Lack of direction, not lack of time, is the problem. We all have twenty-four hour days"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="200dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="1"
+                    android:padding="48dp"
+                    android:src="@drawable/ic_no_phone"
+                    app:tint="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/btn_next"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@android:color/holo_green_dark"
+                        android:gravity="center"
+                        android:text="Quit"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@android:color/white" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

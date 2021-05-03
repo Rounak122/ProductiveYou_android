@@ -6,19 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +46,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import tech.rounak.productiveyou.R;
 import tech.rounak.productiveyou.adapters.AppListAdapter;
 import tech.rounak.productiveyou.models.AppModel;
+import tech.rounak.productiveyou.utils.CheckAppLaunchThread;
 import tech.rounak.productiveyou.utils.PrefHandler;
 import tech.rounak.productiveyou.utils.StatsHelper;
 
+import static android.os.Looper.getMainLooper;
 import static tech.rounak.productiveyou.utils.StatsHelper.TAG;
 import static tech.rounak.productiveyou.utils.StatsHelper.initStatsHelper;
 
@@ -70,6 +70,10 @@ public class DashboardFragment extends Fragment {
     private long totalTime=0;
     private String[] defaultList = {"com.facebook.katana", "com.instagram.android", "com.whatsapp", "com.android.chrome", "com.twitter.android"};
 
+    Handler handler;
+//    volatile Map<String,Long> appTimer = new HashMap<>();
+
+    View timeStartDialog;
     CardView btnAllApps;
     MaterialToolbar toolbar;
     TextView tv_totalTime;
@@ -86,6 +90,7 @@ public class DashboardFragment extends Fragment {
         toolbar = v.findViewById(R.id.toolbar);
         AppBarLayout appBarLayout = v.findViewById(R.id.appBarLayout);
         ConstraintLayout appbarContents=v.findViewById(R.id.appbar_content);
+        timeStartDialog = inflater.inflate(R.layout.card_timeup, null);
 
         NavController navController = NavHostFragment.findNavController(this);
 
@@ -118,26 +123,30 @@ public class DashboardFragment extends Fragment {
 
         PrefHandler.INSTANCE.setMode(0, requireActivity().getApplicationContext());
 
-        checkDrawPermission();
         initiateUsageStats();
+        checkDrawPermission();
 
-//        val mParams: WindowManager.LayoutParams? = WindowManager.LayoutParams(
-//                200,
-//                200,
-//                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-//                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
-//                PixelFormat.TRANSLUCENT)
-
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
-                PixelFormat.TRANSLUCENT);
-
-        params.gravity = Gravity.RIGHT | Gravity.TOP;
-        params.setTitle("Load Average");
 
         return v;
     }
+
+
+
+
+//    private void getForegroundApp(){
+//            long time = System.currentTimeMillis();
+//            List<UsageStats> appList = StatsHelper.getUsageStatsManager().queryUsageStats(UsageStatsManager.INTERVAL_DAILY,time - 1000 * 1000, time);
+//            if (appList != null && appList.size() > 0) {
+//                SortedMap<Long, UsageStats> mySortedMap = new TreeMap<Long, UsageStats>();
+//                for (UsageStats usageStats : appList) {
+//                    mySortedMap.put(usageStats.getLastTimeUsed(),
+//                            usageStats);
+//                }
+//                if (mySortedMap != null && !mySortedMap.isEmpty()) {
+//                    currentApp = mySortedMap.get(mySortedMap.lastKey()).getPackageName();
+//                }
+//            }
+//    }
 
     private void fillStats(){
 
@@ -183,10 +192,6 @@ public class DashboardFragment extends Fragment {
         if (requestCode == USAGE_STATS_PERMISSION) {
             initiateUsageStats();
         }
-
-//        if (requestCode == CODE_DRAW_OVER_OTHER_APP_PERMISSION) {
-//            initiateUsageStats();
-//        }
         if (requestCode == CODE_DRAW_OVER_OTHER_APP_PERMISSION) {
             if (!Settings.canDrawOverlays(requireActivity().getApplicationContext())) {
                 // You don't have permission
@@ -203,8 +208,18 @@ public class DashboardFragment extends Fragment {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + requireActivity().getPackageName()));
                 startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+            }else{
+                initiateDrawService();
+//                showTimeUpWindow();
             }
+
         }
+    }
+
+    public void initiateDrawService(){
+
+        handler = new Handler(getMainLooper());
+        new CheckAppLaunchThread(handler, requireActivity().getApplicationContext()).start();
     }
 
     //Request for app time permission
