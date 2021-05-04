@@ -18,13 +18,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+
+repositories {
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -43,5 +47,8 @@ dependencies {
     //navigation component
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
+
+//    Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }

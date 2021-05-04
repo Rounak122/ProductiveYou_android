@@ -32,7 +32,12 @@ public class StatsHelper {
         long seconds = millis / 1000;
         long minutes = seconds / 60;
         long hours = minutes / 60;
-        String time = hours % 24 + ":" + minutes % 60 + ":" + seconds % 60;
+        String time;
+        if( hours % 24 != 0){
+            time = hours % 24 + "H " + minutes % 60 + "M";
+        }else{
+            time = minutes % 60 + "M";
+        }
         return time;
     }
 

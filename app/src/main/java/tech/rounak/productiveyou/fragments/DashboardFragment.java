@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,6 +21,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -77,6 +84,8 @@ public class DashboardFragment extends Fragment {
     CardView btnAllApps;
     MaterialToolbar toolbar;
     TextView tv_totalTime;
+    PieChart pieChart;
+
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -97,29 +106,23 @@ public class DashboardFragment extends Fragment {
         AppBarConfiguration appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupWithNavController(toolbar,navController,appBarConfiguration);
-
-
         btnAllApps.setOnClickListener(view -> navController.navigate(R.id.action_DashboardFragment_to_AllAppsFragment));
-
-//        appBarLayout.addOnOffsetChangedListener( new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                float percentage = ((float)Math.abs(verticalOffset)/appBarLayout.getTotalScrollRange());
-//                appbarContents.setAlpha(1-percentage);
-//            }});
 
         tv_totalTime = v.findViewById(R.id.tv_totalTime);
         btn_timeFrame=v.findViewById(R.id.toggleButton);
         btn_timeFrame.check(R.id.btn_today);
         appRecyclerList = (RecyclerView) v.findViewById(R.id.topAppList);
+        pieChart = (PieChart) v.findViewById(R.id.chart);
+
+
         packageManager = requireActivity().getPackageManager();
 
-
-        if (!Settings.canDrawOverlays(requireActivity().getApplicationContext())) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + requireActivity().getPackageName()));
-            startActivityForResult(intent,  CODE_DRAW_OVER_OTHER_APP_PERMISSION);
-        }
+//
+//        if (!Settings.canDrawOverlays(requireActivity().getApplicationContext())) {
+//            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+//                    Uri.parse("package:" + requireActivity().getPackageName()));
+//            startActivityForResult(intent,  CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+//        }
 
         PrefHandler.INSTANCE.setMode(0, requireActivity().getApplicationContext());
 
@@ -158,6 +161,8 @@ public class DashboardFragment extends Fragment {
 
         setTimes(); //set timeframe
         setAppList();
+//        setChart();
+
         new LoadApplications().execute();
         btn_timeFrame.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
 
@@ -175,6 +180,47 @@ public class DashboardFragment extends Fragment {
         });
 
     }
+
+    public void setChart(){
+
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setExtraOffsets(5,10,5,5);
+        pieChart.setDragDecelerationFrictionCoef(0.95f);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleColor(Color.WHITE);
+        pieChart.setTransparentCircleRadius(60f);
+        pieChart.animateY(1000, Easing.EaseInOutQuad);
+//        pieChart.setDrawSliceText(false);
+
+        ArrayList<PieEntry> yValues = new ArrayList<>();
+
+//        for (int i=0; i<5; i++){
+//            AppModel app = appList.get(i);
+//            yValues.add(new PieEntry(app.getUsageMillis(), app.getAppName()));
+//
+//        }
+        for (AppModel app: appList){
+            if(app.getUsageMillis()>120000){
+                yValues.add(new PieEntry(app.getUsageMillis(), app.getAppName()));
+            }
+        }
+
+
+        PieDataSet dataSet = new PieDataSet(yValues, "Apps");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        PieData data = new PieData(dataSet);
+        data.setValueTextSize(10f);
+        data.setValueTextColor(Color.WHITE);
+
+        pieChart.setData(data);
+
+    }
+
+
 
     // Fill the stats
     private void initiateUsageStats() {
@@ -210,7 +256,6 @@ public class DashboardFragment extends Fragment {
                 startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
             }else{
                 initiateDrawService();
-//                showTimeUpWindow();
             }
 
         }
@@ -339,9 +384,6 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        if(appList.size()>5){
-            appList=appList.subList(0,5);
-        }
     }
 
     private class LoadApplications extends AsyncTask<Void, Void, Void> {
@@ -363,6 +405,8 @@ public class DashboardFragment extends Fragment {
         protected void onPostExecute(Void result) {
             tv_totalTime.setText(StatsHelper.getTime(totalTime));
             appListAdapter.notifyDataSetChanged();
+            setChart();
+            pieChart.invalidate(); // refresh
             Toast.makeText(getContext(), "DONEEE", Toast.LENGTH_SHORT).show();
             //TODO: close progressbar when added
             super.onPostExecute(result);

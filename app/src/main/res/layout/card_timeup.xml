@@ -59,12 +59,12 @@
                     app:tint="@android:color/white" />
 
                     <Button
-                        android:id="@+id/btn_next"
+                        android:id="@+id/btn_quit"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@android:color/holo_green_dark"
                         android:gravity="center"
-                        android:text="Quit"
+                        android:text="Hide"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@android:color/white" />
 
